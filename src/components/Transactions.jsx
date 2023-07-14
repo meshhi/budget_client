@@ -1,21 +1,12 @@
 import { useEffect, useState, useRef } from 'react';
 
-const TransactionItem = ({title, text, isIncome}) => {
-  return(
-    <div>{title} {text} {isIncome}</div>
-  )
-}
-
-// https://fa1c-95-54-231-7.ngrok-free.app/api/budget/get-all
 
 function Transactions() {
-  console.log(process.env.REACT_APP_DEBUG == 'dev')
   const url = process.env.REACT_APP_DEBUG == 'dev' ? process.env.REACT_APP_BACKEND_BASE_URL_DEV : process.env.REACT_APP_BACKEND_BASE_URL_PROD;
   const [transactions, setTransactions] = useState([]);
   const getTransactions = async() => {
     const response = await fetch(`${url}:5000/api/budget/get-all`);
     const transactions = await response.json();
-    console.log(transactions)
     setTransactions(transactions)
   }
 
@@ -35,7 +26,6 @@ function Transactions() {
     });
     const res = await response.json();
     await getTransactions();
-    console.log(res)
   }
 
   const titleRef = useRef();
@@ -47,10 +37,45 @@ function Transactions() {
     getTransactions();
   }, [])
 
+
+
+
+
+
+  const TransactionItem = ({id, title, text, isIncome}) => {
+    const url = process.env.REACT_APP_DEBUG == 'dev' ? process.env.REACT_APP_BACKEND_BASE_URL_DEV : process.env.REACT_APP_BACKEND_BASE_URL_PROD;
+    const deleteTransaction = async(id) => {
+      const data = {
+        id
+      };
+      const response = await fetch(`${url}:5000/api/budget/transaction`, {
+        method: 'delete',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      const res = await response.json();
+      await getTransactions();
+    }
+  
+    return(
+      <>
+        <div>{title} {text} {isIncome ? "Доход" : "Расход"}</div>
+        <button className="custom_btn" onClick={() => deleteTransaction(id)}>Delete</button>
+      </>
+    )
+  }
+
+
+
+
+
+
   return (
     <>
       <div className="card transactions">
-        <div>{transactions.map(item => <TransactionItem key={item.id} title={item.title} text={item.text} isIncome={item.isIncome}></TransactionItem>)}</div>
+        <div>{transactions.map(item => <TransactionItem key={item.id} id={item.id} title={item.title} text={item.text} isIncome={item.isIncome}></TransactionItem>)}</div>
       </div>
       <form className='create_transaction'>
         <label className='create_transaction__item'>

@@ -1,6 +1,8 @@
 import './App.css';
 import Transactions from './components/Transactions';
+import About from './components/Pages/About';
 import Sidebar from './components/UI/Sidebar';
+import { Route, Routes } from "react-router-dom";
 
 function App() {
   const auth = async () => {
@@ -12,7 +14,10 @@ function App() {
     <div className="main-window">
       <Sidebar></Sidebar>
       <main className='content'>
-        <Transactions></Transactions>
+        <Routes>
+          <Route path="/transactions" element={<Transactions />} />
+          <Route path="/about" element={<About />} />
+        </Routes>
       </main>
     </div>
   );

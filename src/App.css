@@ -85,6 +85,10 @@
   box-shadow: rgba(0, 0, 0, 0.06) 1px 2px 7px 0px;
 }
 
+.transactions {
+  overflow: scroll;
+}
+
 .text_input {
   box-sizing: border-box;
   height: 40px;
