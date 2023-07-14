@@ -1,5 +1,6 @@
 import './App.css';
 import Transactions from './components/Transactions';
+import Sidebar from './components/UI/Sidebar';
 
 function App() {
   const auth = async () => {
@@ -8,9 +9,11 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <button onClick={() => auth()}>Login</button>
-      <Transactions></Transactions>
+    <div className="main-window">
+      <Sidebar></Sidebar>
+      <main className='content'>
+        <Transactions></Transactions>
+      </main>
     </div>
   );
 }

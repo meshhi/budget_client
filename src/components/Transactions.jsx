@@ -49,15 +49,31 @@ function Transactions() {
 
   return (
     <>
-      <div className="transactions">
+      <div className="card transactions">
         <div>{transactions.map(item => <TransactionItem key={item.id} title={item.title} text={item.text} isIncome={item.isIncome}></TransactionItem>)}</div>
       </div>
-      <form>
-        <input type="text" ref={titleRef}></input>
-        <input type="text" ref={textRef}></input>
-        <input type="text" ref={summaryRef}></input>
-        <input type="radio" ref={isIncomeRef}></input>
-        <button onClick={(e) => {
+      <form className='create_transaction'>
+        <label className='create_transaction__item'>
+          <span className="label">Title</span>
+          <input className="text_input" type="text" ref={titleRef}></input>
+        </label>
+        <label className='create_transaction__item'>
+        <span className="label">Text</span>
+          <input className="text_input" type="text" ref={textRef}></input>
+        </label>
+        <label className='create_transaction__item'>
+        <span className="label">Summary</span>
+          <input className="text_input" type="text" ref={summaryRef}></input>
+        </label>
+        <label className='create_transaction__item'>
+        <span className="label">isIncome</span>
+          <div className="input__container">
+            <input className="text_input" type="checkbox" ref={isIncomeRef}></input>
+          </div>
+        </label>
+        <button 
+        className='custom_btn'
+        onClick={(e) => {
           e.preventDefault(); 
           createIncome();
         }}>Create income</button>
