@@ -1,5 +1,5 @@
 import './App.css';
-import Transactions from './components/Transactions';
+import Transactions from './components/Pages/Transactions';
 import About from './components/Pages/About';
 import Sidebar from './components/UI/Sidebar';
 import { Route, Routes } from "react-router-dom";
