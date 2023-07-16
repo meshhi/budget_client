@@ -47,11 +47,12 @@ const Auth = ({url}) => {
         },
         body: JSON.stringify(data),
       });
+
       const user = await response.json();
       if (user.token) {
         localStorage.setItem('jwt_token', user.token)
+        navigate('/transactions');
       }
-      navigate('/transactions');
     } catch(err) {
       console.log(err)
     }

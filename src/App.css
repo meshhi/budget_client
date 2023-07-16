@@ -5,6 +5,9 @@
   --sidebar: rgba(255, 255, 255, 0.262);
   --outline--default: #eef2f9;
   --modal-bg: rgba(255, 255, 255, 0.5);
+  --button--primary--red: #f96c89;
+  --button--primary--green: #65cccc;
+  --white: #ffffff;
 }
 
 body {
@@ -121,23 +124,28 @@ body {
 }
 
 .custom_btn {
+  background-color: var(--button--primary--red);
   width: 180px;
   height: 48px;
   border-radius: 12px;
   justify-content: center;
-  margin-top: 32px;
-  padding: 0 16px;
+  padding: 16px 16px;
   cursor: pointer;
   font-family: inherit;
   font-weight: 500;
-  font-size: 13px;
+  font-size: 0.95rem;
   line-height: 16px;
-  height: 32px;
-  position: relative;
+  /* position: relative; */
   border: 0 solid;
   display: flex;
   align-items: center;
   transition: color .2s,background-color .2s;
+  margin-top: 16px;
+  color: var(--white);
+}
+
+.custom_btn__success {
+  background-color: var(--button--primary--green);
 }
 
 .create_transaction {
@@ -268,29 +276,6 @@ body {
 /* TABLE */
 .table-wrapper {
   overflow-x: auto;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-th,
-td {
-  white-space: nowrap;
-  padding: 0.5rem;
-}
-
-th {
-  background: rgba(0, 0, 0, 0.1);
-}
-
-tbody tr:nth-child(2n) {
-  background: rgba(0, 0, 0, 0.05);
-}
-
-h1 {
-  text-align: center;
 }
 
 /* TRANSACTION LIST */

@@ -138,6 +138,7 @@ function Transactions({ url }) {
         <Button
           callback={() => setModalVisible((prev) => !prev)}
           title={"Create new transaction(ui)"}
+          success={true}
         ></Button>
         {isModalVisible ? (
           <Modal visible={isModalVisible} setModalVisible={setModalVisible}>
