@@ -3,12 +3,23 @@
   --main-window-bg: rgb(223, 237, 249);
   --sidebar-hover: rgba(255, 255, 255, 0.791);
   --sidebar: rgba(255, 255, 255, 0.262);
-  --outline--default: #eef2f9;
+  --outline--default: rgb(248, 240, 238);
   --modal-bg: rgba(255, 255, 255, 0.5);
   --card-bg: rgba(255, 255, 255, 1);
+  --card-bg-no-color: rgba(255, 255, 255, 0.4);
+  --bg-no: rgba(255, 255, 255, 0);
   --button--primary--red: #f96c89;
   --button--primary--green: #65cccc;
+  --button--primary--green-hover: #65ccccc5;
   --white: #ffffff;
+  --blue: #3474ff;
+  --text--label: #000000;
+  --text--primary: rgb(32, 34, 36);
+  --background-colors--content: #fdfbfb;
+}
+
+#income-input {
+  align-self: flex-start;
 }
 
 body {
@@ -88,7 +99,7 @@ body {
 
   background-color: var(--main-bg-color);
   border-radius: 16px 0 0 16px;
-  padding: 12px 24px 4px;
+  padding: 6px;
   transition: background-color .6s;
 }
 
@@ -119,8 +130,10 @@ body {
   align-items: center;
 }
 
-.transactions {
+.transactions, .analytics {
   overflow: scroll;
+  border: 0;
+  margin: 0;
 }
 
 .text_input {
@@ -132,6 +145,8 @@ body {
 }
 
 .input__container {
+  width: 100%;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -155,12 +170,22 @@ body {
   display: flex;
   align-items: center;
   transition: color .2s,background-color .2s;
-  margin: 16px;
+  margin: 0;
   color: var(--white);
 }
 
 .custom_btn__success {
   background-color: var(--button--primary--green);
+}
+
+.custom_btn__success:hover {
+  background-color: var(--button--primary--green-hover);
+}
+
+.add_button {
+  width: 3rem;
+  border-radius: 50%;
+  padding: 0;
 }
 
 .create_transaction {
@@ -245,36 +270,48 @@ body {
 
 @keyframes slidein {
   from {
+    width: 0px;
     right: -640px;
   }
 
   to {
+    width: 640px;
     right: 0px;
   }
 }
 
 @keyframes slideout {
   from {
+    width: 640px;
     right: 0px;
   }
 
   to {
+    width: 0px;
     right: -640px;
   }
 }
 
 .modal_content__active {
-  animation-duration: 0.1s;
+  animation-duration: 0.2s;
   animation-name: slidein;
   animation-iteration-count: 1;
   animation-direction: alternate;
 }
 
 .modal_content__off {
-  animation-duration: 0.1s;
+  animation-duration: 0.2s;
   animation-name: slideout;
   animation-iteration-count: 1;
   animation-direction: alternate;
+}
+
+.close_modal__button {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 1rem;
+  cursor: pointer;
 }
 
 /* AUTH */
@@ -294,8 +331,9 @@ body {
 }
 
 .auth_form {
-  width: 432px;
-  background-color: var(--main-bg-color);
+  width: 80%;
+  max-width: 432px;
+  background-color: var(--card-bg-no-color);
   border-radius: 12px;
   display: flex;
   flex-direction: column;
@@ -306,8 +344,9 @@ body {
 }
 
 .auth_login, .auth_registration {
-  width: 432px;
-  background-color: var(--main-bg-color);
+  width: 100%;
+  max-width: 432px;
+  background-color: var(--bg-no);
   border-radius: 12px;
   display: flex;
   flex-direction: column;
@@ -318,11 +357,56 @@ body {
 .auth_state_container {
   width: 100%;
   height: 3rem;
-  margin-top: 1rem;
+  /* margin-top: 1rem; */
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+
+.auth_change_state__link {
+  margin-left: 0.2rem;
+  cursor: pointer;
+  color: var(--blue);
+}
+
+.auth_change_state__link:hover {
+  text-decoration: underline;
+  color: var(--blue);
+}
+
+.toasts-container {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+}
+
+.custom_label {
+  color: var(--text--label);
+  display: inline-block;
+  margin-bottom: 4px;
+  line-height: 16px;
+  font-weight: 500;
+  font-size: 13px;
+  align-self: flex-start;
+}
+
+.custom_input {
+  width: 100%;
+  height: 40px;
+  border-radius: 12px;
+  padding: 12px;
+  width: 100%;
+  border: 1px solid var(--outline--default);
+  height: 32px;
+  border-radius: 12px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 400;
+  background-color: var(--background-colors--content);
+  color: var(--text--primary);
+  -webkit-text-fill-color: var(--text--primary);
+  transition: background-color .2s,border-color .2s,box-shadow .2s;
 }
 
 /* TABLE */
@@ -332,7 +416,8 @@ body {
 
 /* TRANSACTION LIST */
 .transactions__list {
-  
+  overflow: scroll;
+  height: 100%;
 }
 
 .transaction__item {

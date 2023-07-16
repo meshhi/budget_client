@@ -1,5 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
+import Button from '../UI/Button';
+import Toast from 'react-bootstrap/Toast';
+import ToastContainer from 'react-bootstrap/ToastContainer';
 
 const Auth = ({url}) => {
   const navigate = useNavigate();
@@ -7,9 +10,10 @@ const Auth = ({url}) => {
   const [password, setPassword] = useState('');
   const [currentState, setCurrentState] = useState({
     state: 'login',
-    name: 'перейти Логин'
+    name: 'Нет аккаунта?',
+    action: ' Регистрация'
   });
-
+  const [authError, setAuthError] = useState('');
   const registerNewUser = async () => {
     try {
       const data = {
@@ -25,6 +29,10 @@ const Auth = ({url}) => {
         body: JSON.stringify(data),
       });
       const user = await response.json();
+      if (response.status != '201') {
+        setAuthError(user.response);
+        setShowA(true);
+      }
       if (user.token) {
         localStorage.setItem('jwt_token', user.token)
       } else throw Error(user.response)
@@ -47,8 +55,12 @@ const Auth = ({url}) => {
         },
         body: JSON.stringify(data),
       });
-
+      
       const user = await response.json();
+      if (response.status != '200') {
+        setAuthError(user.response);
+        setShowA(true);
+      }
       if (user.token) {
         localStorage.setItem('jwt_token', user.token)
         navigate('/transactions');
@@ -64,6 +76,9 @@ const Auth = ({url}) => {
     };
   }, []);
 
+  const [showA, setShowA] = useState(false);
+  const toggleShowA = () => setShowA(!showA);
+
   return(
     <div className="auth_container">
       <div className="auth_form">
@@ -71,61 +86,84 @@ const Auth = ({url}) => {
           currentState.state === 'login'
           ? <form className="auth_login">
               <div className="input__container">
-                <label htmlFor="email-input">Email</label>
-                <input type="text" id="email-input" onChange={(e) => {
+                <label className="custom_label" htmlFor="email-input">Email</label>
+                <input className="custom_input" type="text" id="email-input" onChange={(e) => {
                   setEmail(e.target.value);
                 }}/>
+                
               </div>
-              <div className="input__container">
-                <label htmlFor="password-input">Password</label>
-                <input type="password" id="password-input" onChange={(e) => {
+              <div className="input__container" style={{marginTop: '1rem'}}>
+                <label className="custom_label" htmlFor="password-input">Password</label>
+                <input className="custom_input" type="password" id="password-input" onChange={(e) => {
                   setPassword(e.target.value);
                 }}/>
               </div>  
-              <button onClick={async(e) => {
+              <Button callback={async(e) => {
                 e.preventDefault();
                 await login();
-              }}>Login</button>
+              }}
+              title="Войти"
+              ></Button>
             </form>
           : <form className="auth_registration">
               <div className="input__container">
-                <label htmlFor="email-input">Email</label>
-                <input type="text" id="email-input" onChange={(e) => {
+                <label className="custom_label" htmlFor="email-input">Email</label>
+                <input className="custom_input" type="text" id="email-input" onChange={(e) => {
                   setEmail(e.target.value);
                 }}/>
               </div>
-              <div className="input__container">
-                <label htmlFor="password-input">Password</label>
-                <input type="password" id="password-input" onChange={(e) => {
+              <div className="input__container" style={{marginTop: '1rem'}}>
+                <label className="custom_label" htmlFor="password-input">Password</label>
+                <input className="custom_input" type="password" id="password-input" onChange={(e) => {
                   setPassword(e.target.value);
                 }}/>
               </div>  
-              <button onClick={async(e) => {
+              <Button callback={async(e) => {
                 e.preventDefault();
                 await registerNewUser();
-              }}>Register</button>
+              }}
+              title="Зарегистрироваться"></Button>
             </form>
         }
         <div className="auth_state_container" >
-          <button className="auth_change_state" onClick={(e) => {
+          <span className="auth_change_state">{currentState.name}</span>
+          <span className="auth_change_state__link" onClick={(e) => {
             setCurrentState(prev => {
               if (prev.state === 'login') {
                 return ({
                   state: 'register',
-                  name: 'перейти Регистрация'
+                  name: 'Уже есть аккаунт?',
+                  action: ' Авторизация'
                 })
               } else {
                 return ({
                   state: 'login',
-                  name: 'перейти Логин'
+                  name: 'Нет аккаунта?',
+                  action: ' Регистрация'
                 })
               }
             })
-          }}>
-            {currentState.name}
-          </button>
+          }}>{currentState.action}</span>
         </div>
       </div>
+
+      <ToastContainer className="toasts-container">
+        <Toast 
+          onClose={toggleShowA} 
+          show={showA} 
+          animation={true}
+          autohide={true}
+          delay={5000}
+        >
+          <Toast.Header
+            closeButton={true}
+            >
+            <strong className="me-auto">Не удалось войти</strong>
+            <small>{new Date().toISOString()}</small>
+          </Toast.Header>
+          <Toast.Body>{authError}</Toast.Body>
+        </Toast>
+      </ToastContainer>
     </div>
   )
 }

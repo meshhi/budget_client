@@ -55,7 +55,7 @@ const About = () => {
   return(
     
 
-    <div className="card transactions">
+    <div className="card analytics">
       <header className="card__header">Аналитика</header>
       <div className="currency__container">
         {

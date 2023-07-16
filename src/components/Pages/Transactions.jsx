@@ -3,7 +3,7 @@ import Modal from "../UI/Modal";
 import Button from "../UI/Button";
 import Spinner from "react-bootstrap/Spinner";
 import TableMaterial from "../UI/TableMaterial";
-import TransactionItem from "../Transactions/TransactionItem";
+import { BsPlus } from "react-icons/bs";
 
 function Transactions({ url }) {
   const [transactions, setTransactions] = useState([]);
@@ -64,10 +64,9 @@ function Transactions({ url }) {
   useEffect(() => {
     const run = async () => {
       await getTransactions();
-    }
-    
-    run()
-      .catch(console.error)
+    };
+
+    run().catch(console.error);
   }, []);
 
   const IncomeCreation = () => {
@@ -80,37 +79,32 @@ function Transactions({ url }) {
     } else {
       return (
         <form className="create_transaction">
-          <label className="create_transaction__item">
-            <span className="label">Title</span>
-            <input className="text_input" type="text" ref={titleRef}></input>
-          </label>
-          <label className="create_transaction__item">
-            <span className="label">Text</span>
-            <input className="text_input" type="text" ref={textRef}></input>
-          </label>
-          <label className="create_transaction__item">
-            <span className="label">Summary</span>
-            <input className="text_input" type="text" ref={summaryRef}></input>
-          </label>
-          <label className="create_transaction__item">
-            <span className="label">isIncome</span>
-            <div className="input__container">
-              <input
-                className="text_input"
-                type="checkbox"
-                ref={isIncomeRef}
-              ></input>
-            </div>
-          </label>
-          <button
-            className="custom_btn"
-            onClick={(e) => {
-              e.preventDefault();
-              createIncome();
-            }}
-          >
-            Create income
-          </button>
+          <div className="input__container">
+            <label className="custom_label" htmlFor="title-input">Название</label>
+            <input className="custom_input" type="text" id="title-input" ref={titleRef}/>      
+          </div>
+          <div className="input__container">
+            <label className="custom_label" htmlFor="text-input">Описание</label>
+            <input className="custom_input" type="text" id="text-input" ref={textRef}/>      
+          </div>
+          <div className="input__container">
+            <label className="custom_label" htmlFor="summary-input">Сумма</label>
+            <input className="custom_input" type="text" id="summary-input" ref={summaryRef}/>      
+          </div>
+          <div className="input__container">
+            <label className="custom_label" htmlFor="income-input">Доход</label>
+            <input className="custom_input" type="checkbox" id="income-input" ref={isIncomeRef}/>      
+          </div>
+          <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '2rem'}}>
+            <Button
+              title="Добавить"
+              callback={(e) => {
+                e.preventDefault();
+                createIncome();
+              }}
+            >
+            </Button>
+          </div>
           {error ? (
             <div className="create_transaction__error">{error}</div>
           ) : (
@@ -131,12 +125,10 @@ function Transactions({ url }) {
       <div className="card transactions">
         <header className="card__header">Транзакции</header>
         <div className="transactions__list">
-          <Button
+          <TableMaterial
+            data={transactions}
             callback={() => setModalVisible((prev) => !prev)}
-            title={"Create new transaction(ui)"}
-            success={true}
-          ></Button>
-          <TableMaterial data={transactions}></TableMaterial>
+          ></TableMaterial>
         </div>
         {isModalVisible ? (
           <Modal visible={isModalVisible} setModalVisible={setModalVisible}>
