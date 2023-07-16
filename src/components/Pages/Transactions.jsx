@@ -2,11 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import Modal from "../UI/Modal";
 import Spinner from 'react-bootstrap/Spinner';
 
-function Transactions() {
-  const url =
-    process.env.REACT_APP_DEBUG == "dev"
-      ? process.env.REACT_APP_BACKEND_BASE_URL_DEV
-      : process.env.REACT_APP_BACKEND_BASE_URL_PROD;
+function Transactions({url}) {
   const [transactions, setTransactions] = useState([]);
   const [isModalVisible, setModalVisible] = useState(false);
 
@@ -61,10 +57,6 @@ function Transactions() {
   }, []);
 
   const TransactionItem = ({ id, title, text, isIncome }) => {
-    const url =
-      process.env.REACT_APP_DEBUG == "dev"
-        ? process.env.REACT_APP_BACKEND_BASE_URL_DEV
-        : process.env.REACT_APP_BACKEND_BASE_URL_PROD;
     const deleteTransaction = async (id) => {
       const data = {
         id,
