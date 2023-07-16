@@ -3,7 +3,7 @@
   --main-window-bg: rgb(223, 237, 249);
   --sidebar-hover: rgba(255, 255, 255, 0.791);
   --sidebar: rgba(255, 255, 255, 0.262);
-  --outline--default: rgba(94, 55, 55, 0.791);
+  --outline--default: #eef2f9;
   --modal-bg: rgba(255, 255, 255, 0.5);
 }
 
@@ -74,6 +74,7 @@ body {
   transition: background-color .6s;
 }
 
+/* CARD CONTAINER */
 .card {
   font-family: 'PT Root UI', sans-serif;
   font-size: 13px;
@@ -88,6 +89,16 @@ body {
   display: flex;
   flex-direction: column;
   box-shadow: rgba(0, 0, 0, 0.06) 1px 2px 7px 0px;
+}
+
+.card__header {
+  font-size: 14px;
+  font-weight: 500;
+  padding: 12px;
+  border-bottom: 1px solid var(--outline--default, #eef2f9);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .transactions {

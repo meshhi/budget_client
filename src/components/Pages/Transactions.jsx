@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import Modal from "../UI/Modal";
+import Button from '../UI/Button';
 import Spinner from 'react-bootstrap/Spinner';
 
 function Transactions({url}) {
@@ -30,7 +31,7 @@ function Transactions({url}) {
         title: titleRef.current.value,
         text: textRef.current.value,
         summary: summaryRef.current.value,
-        isIncome: isIncomeRef.current.value,
+        isIncome: isIncomeRef.current.checked,
       };
       const response = await fetch(`${url}:5000/api/budget/transaction`, {
         method: "post",
@@ -153,6 +154,9 @@ function Transactions({url}) {
   return (
     <>
       <div className="card transactions">
+        <header className="card__header">
+          Транзакции
+        </header>
         <div>
           {transactions.map((item) => (
             <TransactionItem
@@ -164,7 +168,7 @@ function Transactions({url}) {
             ></TransactionItem>
           ))}
         </div>
-        <button onClick={() => setModalVisible(prev => !prev)}>Create new transaction</button>
+        <Button callback={() => setModalVisible(prev => !prev)} title={'Create new transaction(ui)'}></Button>
         {
           isModalVisible 
           ? <Modal visible={isModalVisible} setModalVisible={setModalVisible}>

@@ -15,24 +15,28 @@ function App() {
 
   const navigate = useNavigate();
   const checkToken = async () => {
-    const token = localStorage.getItem('jwt_token');
-    if (!token) {
-      navigate("/auth");
-      return false;
-    } 
-    const data = {
-      token,
-    };
-    const response = await fetch(`${url}:5000/api/auth/check`, {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    const res = await response.json();
-    if (res.response === 'badToken') {
-      localStorage.removeItem('jwt_token');
+    try {
+      const token = localStorage.getItem('jwt_token');
+      if (!token) {
+        navigate("/auth");
+        return false;
+      } 
+      const data = {
+        token,
+      };
+      const response = await fetch(`${url}:5000/api/auth/check`, {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      const res = await response.json();
+      if (res.response === 'badToken') {
+        localStorage.removeItem('jwt_token');
+      }
+    } catch(err) {
+      console.log(err)
     }
   };
   
