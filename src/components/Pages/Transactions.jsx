@@ -1,9 +1,12 @@
 import { useEffect, useState, useRef } from "react";
 import Modal from "../UI/Modal";
-import Button from '../UI/Button';
-import Spinner from 'react-bootstrap/Spinner';
+import Button from "../UI/Button";
+import Spinner from "react-bootstrap/Spinner";
+import Table from "../UI/Table";
+import TableMaterial from "../UI/TableMaterial";
+import TransactionItem from "../Transactions/TransactionItem";
 
-function Transactions({url}) {
+function Transactions({ url }) {
   const [transactions, setTransactions] = useState([]);
   const [isModalVisible, setModalVisible] = useState(false);
 
@@ -13,10 +16,10 @@ function Transactions({url}) {
 
   const getTransactions = async () => {
     const response = await fetch(`${url}:5000/api/budget/get-all`, {
-      method: 'get',
+      method: "get",
       headers: {
-        "Authorization": `JWT ${localStorage.getItem('jwt_token')}`
-      }
+        Authorization: `JWT ${localStorage.getItem("jwt_token")}`,
+      },
     });
     const transactions = await response.json();
     setTransactions(transactions);
@@ -37,17 +40,17 @@ function Transactions({url}) {
         method: "post",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `JWT ${localStorage.getItem('jwt_token')}`
+          Authorization: `JWT ${localStorage.getItem("jwt_token")}`,
         },
         body: JSON.stringify(data),
       });
       const res = await response.json();
       if (response.status !== 201) {
-        throw new Error(`${response.statusText}: ${res.response}`)
+        throw new Error(`${response.statusText}: ${res.response}`);
       }
       await getTransactions();
       setResponse(res.response);
-    } catch(e) {
+    } catch (e) {
       setError(e.message);
     } finally {
       setLoading(false);
@@ -60,44 +63,21 @@ function Transactions({url}) {
   const isIncomeRef = useRef();
 
   useEffect(() => {
-    getTransactions();
-  }, []);
-
-  const TransactionItem = ({ id, title, text, isIncome }) => {
-    const deleteTransaction = async (id) => {
-      const data = {
-        id,
-      };
-      const response = await fetch(`${url}:5000/api/budget/transaction`, {
-        method: "delete",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `JWT ${localStorage.getItem('jwt_token')}`
-        },
-        body: JSON.stringify(data),
-      });
-      const res = await response.json();
+    const run = async () => {
       await getTransactions();
-    };
-
-    return (
-      <>
-        <div>
-          {title} {text} {isIncome ? "Доход" : "Расход"}
-        </div>
-        <button className="custom_btn" onClick={() => deleteTransaction(id)}>
-          Delete
-        </button>
-      </>
-    );
-  };
+    }
+    
+    run()
+      .catch(console.error)
+  }, []);
 
   const IncomeCreation = () => {
     if (isLoading) {
-      return (  
-      <Spinner animation="border" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </Spinner>)
+      return (
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      );
     } else {
       return (
         <form className="create_transaction">
@@ -132,20 +112,16 @@ function Transactions({url}) {
           >
             Create income
           </button>
-          {
-            error
-            ? <div className="create_transaction__error">
-                {error}
-              </div>
-            : false
-          }
-          {
-            response
-            ? <div className="create_transaction__response">
-                {response}
-              </div>
-            : false
-          }
+          {error ? (
+            <div className="create_transaction__error">{error}</div>
+          ) : (
+            false
+          )}
+          {response ? (
+            <div className="create_transaction__response">{response}</div>
+          ) : (
+            false
+          )}
         </form>
       );
     }
@@ -154,28 +130,22 @@ function Transactions({url}) {
   return (
     <>
       <div className="card transactions">
-        <header className="card__header">
-          Транзакции
-        </header>
-        <div>
-          {transactions.map((item) => (
-            <TransactionItem
-              key={item.id}
-              id={item.id}
-              title={item.title}
-              text={item.text}
-              isIncome={item.isIncome}
-            ></TransactionItem>
-          ))}
+        <header className="card__header">Транзакции</header>
+        {/* <Table></Table> */}
+        <div className="transactions__list">
+          <TableMaterial data={transactions}></TableMaterial>
         </div>
-        <Button callback={() => setModalVisible(prev => !prev)} title={'Create new transaction(ui)'}></Button>
-        {
-          isModalVisible 
-          ? <Modal visible={isModalVisible} setModalVisible={setModalVisible}>
-              <IncomeCreation></IncomeCreation>
-            </Modal>
-          : false 
-        }
+        <Button
+          callback={() => setModalVisible((prev) => !prev)}
+          title={"Create new transaction(ui)"}
+        ></Button>
+        {isModalVisible ? (
+          <Modal visible={isModalVisible} setModalVisible={setModalVisible}>
+            <IncomeCreation></IncomeCreation>
+          </Modal>
+        ) : (
+          false
+        )}
       </div>
     </>
   );

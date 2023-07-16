@@ -178,29 +178,41 @@ body {
 
 .modal_portal {
   position: absolute;
+  backdrop-filter: blur(10px);
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
   background-color: var(--modal-bg);
+  z-index: 99999;
 }
 
 .modal_content {
-  width: 20%;
-  margin-right: 0;
-  margin-left: auto;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 640px;
+  box-shadow: 2px 4px 30px 4px #00000014;
+  border-radius: 16px 0 0 16px;
+  background-color: var(--modal-bg);
+  padding: 13px 24px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
 }
 
 .modal_content__active {
   animation-duration: 0.5s;
-  animation-name: slidein;
+  /* animation-name: slidein; */
   animation-iteration-count: 1;
   animation-direction: alternate;
 }
 
 .modal_content__off {
   animation-duration: 0.5s;
-  animation-name: slideout;
+  /* animation-name: slideout; */
   animation-iteration-count: 1;
   animation-direction: alternate;
 }
@@ -251,4 +263,41 @@ body {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+
+/* TABLE */
+.table-wrapper {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  white-space: nowrap;
+  padding: 0.5rem;
+}
+
+th {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+tbody tr:nth-child(2n) {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+h1 {
+  text-align: center;
+}
+
+/* TRANSACTION LIST */
+.transactions__list {
+  
+}
+
+.transaction__item {
+
 }
