@@ -2,7 +2,6 @@ import { useEffect, useState, useRef } from "react";
 import Modal from "../UI/Modal";
 import Button from "../UI/Button";
 import Spinner from "react-bootstrap/Spinner";
-import Table from "../UI/Table";
 import TableMaterial from "../UI/TableMaterial";
 import TransactionItem from "../Transactions/TransactionItem";
 
@@ -131,7 +130,6 @@ function Transactions({ url }) {
     <>
       <div className="card transactions">
         <header className="card__header">Транзакции</header>
-        {/* <Table></Table> */}
         <div className="transactions__list">
           <Button
             callback={() => setModalVisible((prev) => !prev)}
