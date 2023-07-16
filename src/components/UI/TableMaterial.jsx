@@ -62,7 +62,6 @@ const TableMaterial = ({ data }) => {
         },
       })}
       muiTableBodyRowProps={({ row }) => {
-        console.log(row)
         return {
         //implement row selection click events manually
         onClick: () =>

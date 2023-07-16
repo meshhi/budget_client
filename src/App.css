@@ -286,3 +286,8 @@ body {
 .transaction__item {
 
 }
+
+/* CURRENCY */
+.currency__container {
+  overflow: scroll;
+}
