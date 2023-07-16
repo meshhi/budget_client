@@ -133,13 +133,13 @@ function Transactions({ url }) {
         <header className="card__header">Транзакции</header>
         {/* <Table></Table> */}
         <div className="transactions__list">
+          <Button
+            callback={() => setModalVisible((prev) => !prev)}
+            title={"Create new transaction(ui)"}
+            success={true}
+          ></Button>
           <TableMaterial data={transactions}></TableMaterial>
         </div>
-        <Button
-          callback={() => setModalVisible((prev) => !prev)}
-          title={"Create new transaction(ui)"}
-          success={true}
-        ></Button>
         {isModalVisible ? (
           <Modal visible={isModalVisible} setModalVisible={setModalVisible}>
             <IncomeCreation></IncomeCreation>
