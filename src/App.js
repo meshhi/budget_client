@@ -31,6 +31,9 @@ function App() {
       body: JSON.stringify(data),
     });
     const res = await response.json();
+    if (res.response === 'badToken') {
+      localStorage.removeItem('jwt_token');
+    }
   };
   
   useEffect(() => {
