@@ -11,7 +11,12 @@ function Transactions({url}) {
   const [response, setResponse] = useState(false);
 
   const getTransactions = async () => {
-    const response = await fetch(`${url}:5000/api/budget/get-all`);
+    const response = await fetch(`${url}:5000/api/budget/get-all`, {
+      method: 'get',
+      headers: {
+        "Authorization": `JWT ${localStorage.getItem('jwt_token')}`
+      }
+    });
     const transactions = await response.json();
     setTransactions(transactions);
   };
@@ -31,6 +36,7 @@ function Transactions({url}) {
         method: "post",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `JWT ${localStorage.getItem('jwt_token')}`
         },
         body: JSON.stringify(data),
       });
@@ -65,6 +71,7 @@ function Transactions({url}) {
         method: "delete",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `JWT ${localStorage.getItem('jwt_token')}`
         },
         body: JSON.stringify(data),
       });

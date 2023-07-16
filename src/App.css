@@ -104,6 +104,7 @@ body {
 
 .input__container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -191,4 +192,32 @@ body {
   animation-name: slideout;
   animation-iteration-count: 1;
   animation-direction: alternate;
+}
+
+/* AUTH */
+.auth_container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-image: url('https://media.tenor.com/-kDnim3XhzYAAAAd/stacks-growing.gif');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.auth_form {
+  width: 432px;
+  background-color: var(--main-bg-color);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 56px 32px;
+  margin-top: 28px;
 }
