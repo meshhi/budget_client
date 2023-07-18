@@ -7,6 +7,7 @@ import { BsPlus } from "react-icons/bs";
 
 function Transactions({ url }) {
   const [transactions, setTransactions] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [isModalVisible, setModalVisible] = useState(false);
 
   const [isLoading, setLoading] = useState(false);
@@ -22,6 +23,20 @@ function Transactions({ url }) {
     });
     const transactions = await response.json();
     setTransactions(transactions);
+    console.log(transactions)
+  };
+
+  const getCategories = async () => {
+    const response = await fetch(`${url}:5000/api/budget/categories`, {
+      method: "get",
+      headers: {
+        Authorization: `JWT ${localStorage.getItem("jwt_token")}`,
+      },
+    });
+    const categories = await response.json();
+    setCategories(categories);
+    console.log('categories')
+    console.log(categories)
   };
 
   const createIncome = async () => {
@@ -34,6 +49,7 @@ function Transactions({ url }) {
         text: textRef.current.value,
         summary: summaryRef.current.value,
         isIncome: isIncomeRef.current.checked,
+        categoryId: categoryRef.current.value,
       };
       const response = await fetch(`${url}:5000/api/budget/transaction`, {
         method: "post",
@@ -60,10 +76,12 @@ function Transactions({ url }) {
   const textRef = useRef();
   const summaryRef = useRef();
   const isIncomeRef = useRef();
+  const categoryRef = useRef();
 
   useEffect(() => {
     const run = async () => {
       await getTransactions();
+      await getCategories();
     };
 
     run().catch(console.error);
@@ -94,6 +112,18 @@ function Transactions({ url }) {
           <div className="input__container">
             <label className="custom_label" htmlFor="income-input">Доход</label>
             <input className="custom_input" type="checkbox" id="income-input" ref={isIncomeRef}/>      
+          </div>
+          <div className="input__container">
+            <label className="custom_label" htmlFor="category-input">Категория</label>
+            <select className="custom_input" id="category-input" ref={categoryRef}>
+              {
+                categories.map((category) => {
+                  return(
+                    <option value={category.id}>{category.title}</option>
+                  )
+                })
+              }
+            </select>  
           </div>
           <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '2rem'}}>
             <Button
