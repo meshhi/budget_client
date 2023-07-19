@@ -1,7 +1,7 @@
 import './App.css';
 import Transactions from './components/Pages/Transactions';
 import Auth from './components/Pages/Auth';
-import About from './components/Pages/About';
+import Analytics from './components/Pages/Analytics';
 import Sidebar from './components/UI/Sidebar';
 import { Route, Routes } from "react-router-dom";
 import { useEffect } from 'react';
@@ -51,7 +51,7 @@ function App() {
         <main className='content'>
           <Routes>
             <Route path="/transactions" element={<Transactions url={url}/>} />
-            <Route path="/about" element={<About />} />
+            <Route path="/analytics" element={<Analytics url={url} />} />
           </Routes>
         </main>
       </div>
