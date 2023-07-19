@@ -152,7 +152,6 @@ body {
   justify-content: center;
   align-items: center;
 }
-
 .custom_btn {
   background-color: var(--button--primary--red);
   width: 180px;
@@ -172,6 +171,10 @@ body {
   transition: color .2s,background-color .2s;
   margin: 0;
   color: var(--white);
+}
+
+.custom_btn__classic {
+  margin-top: 2rem;
 }
 
 .custom_btn__success {
