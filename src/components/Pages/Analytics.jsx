@@ -59,6 +59,9 @@ const Analytics = ({url}) => {
   });
 
   const pieOption = {
+    tooltip: {
+      show: true
+    },
     series: [
       {
         type: 'pie',
@@ -70,30 +73,6 @@ const Analytics = ({url}) => {
       }
     ]
   }
-
-  const options = {
-    grid: { top: 8, right: 8, bottom: 24, left: 36 },
-    xAxis: {
-      type: 'category',
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-    },
-    yAxis: {
-      type: 'value',
-    },
-    series: [
-      {
-        type: 'pie',
-        data: data.map(item => ({
-          name: item["categories.title"],
-          value: item["transactions.count"],
-        })),
-        radius: '50%'
-      },
-    ],
-    tooltip: {
-      trigger: 'axis',
-    },
-  };
 
   useEffect(() => {
     sendMessage({
@@ -109,14 +88,6 @@ const Analytics = ({url}) => {
       <div className="currency__container">
         {
           Date(messageHistory)
-        }
-        {
-          data.map(item => {
-            return(
-              <div>
-                {JSON.stringify(item)}
-              </div>)
-          })
         }
       </div>
       <ReactECharts
